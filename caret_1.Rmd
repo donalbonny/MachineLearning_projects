@@ -1,5 +1,5 @@
 ---
-title: "MAchine_learning_first_test"
+title: "Machine_learning_first_test"
 author: "Vinh Pham"
 date: "January 25, 2019"
 output: html_document
