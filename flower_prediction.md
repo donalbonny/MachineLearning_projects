@@ -1,6 +1,5 @@
-
 ---
-title: 'Flower organ identity using gene expression data in R'
+title: 'Flower organ identity using machine learning in R'
 date: 2018-12-10
 tags:
   - Machine Learning
@@ -8,8 +7,8 @@ tags:
   - caret package 
 ---
 
-This is the example of using machine learning in predicting the specific genes in flower developments. 
 
+This is the example of using machine learning in predicting the specific genes in flower developments. 
 ======
 
 * Project 1: using caret in R for machine learning and apply into "Modeling Transcription binding contribution and gene expression". I use the random forest algorithm to build the model to predict potential regulators affect domain specificity based on the expression changes between 2 floral specific organs (classify genes in different flower organs including petals, sepals, carpels and stamens). Code can be [found here](https://github.com/donalbonny/MachineLearning_projects/blob/master/flower_model.Rmd)
