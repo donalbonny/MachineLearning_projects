@@ -212,7 +212,7 @@ par(mfrow=c(2,3))
   }
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 ``` r
 par(mfrow=c(2,3))
@@ -221,7 +221,7 @@ par(mfrow=c(2,3))
   }
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-2.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-2.png)
 
 ``` r
 par(mfrow=c(2,3))
@@ -230,7 +230,7 @@ par(mfrow=c(2,3))
   }
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-3.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-3.png)
 
 ``` r
 par(mfrow=c(2,3))
@@ -239,7 +239,7 @@ par(mfrow=c(2,3))
 }
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-4.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-4.png)
 
 ``` r
 par(mfrow=c(2,3))
@@ -248,7 +248,7 @@ par(mfrow=c(2,3))
   }
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-5.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-11-5.png)
 
 ``` r
 p1 <- ggplot(data, aes(x=concavity_se)) + ggtitle("Concavity SE") +
@@ -260,7 +260,7 @@ p3 <- ggplot(data, aes(x= radius_se)) + ggtitle("Radius") +
 grid.arrange(p1, p2, p3, ncol=3)
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-12-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 Let's check the correlation between different features
 
@@ -272,7 +272,7 @@ corrplot(correlations, number.cex = .9, method = "square",
          type = "full", tl.cex=0.8,tl.col = "black")
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-13-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 ``` r
 attach(data)
@@ -291,7 +291,7 @@ boxplot(data$radius_mean~ data$diagnosis, main=" Radius Mean vs Breast Cancer", 
 boxplot(data$texture_mean~ data$diagnosis, main=" Texture Mean vs Breast Cancer", xlab="Diagnosis", ylab=" Texture Mean")
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-14-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-14-1.png)
 
 PCA analysis
 ============
@@ -300,7 +300,7 @@ PCA analysis
 ggplot(data, aes(x=concavity_mean, y= texture_mean, color=diagnosis)) + geom_point()
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-15-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-15-1.png)
 
 ``` r
 data %>% select(-diagnosis) %>% # remove diagnosis column
@@ -361,7 +361,7 @@ head(pca_data)
 ggplot(pca_data, aes(x=PC1, y=PC2, color=Diagnosis)) + geom_point()
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-18-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-18-1.png)
 
 look at the rotation data
 
@@ -371,7 +371,7 @@ pc2 <- ggplot(pca_data, aes(x=PC2, fill=data$diagnosis)) + geom_density(alpha=0.
 grid.arrange(pc1, pc2, ncol=2)
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-19-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-19-1.png)
 
 ``` r
 rotation_data <- data.frame(pca$rotation, variable=row.names(pca$rotation))
@@ -392,7 +392,7 @@ ggplot(rotation_data) +
   coord_fixed() # fix aspect ratio to 1:1
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-21-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-21-1.png)
 
 Model selection
 ===============
@@ -502,13 +502,15 @@ confusionMatrix(prediction, validation$diagnosis)
 dotplot(result)
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-26-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-26-1.png)
 
 ``` r
 bwplot(result, metric = "Accuracy")
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-26-2.png) The results show that Random forest gives the best result for our dataset
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-26-2.png) 
+
+The results show that Random forest gives the best result for our dataset
 
 Logistic regression using glm function
 ======================================
@@ -535,4 +537,4 @@ ggplot(lr_data, aes(x=predictor, fill=Diagnosis)) +
   scale_fill_colorblind()
 ```
 
-![](/donalbonny.github.io/figures/cancer_files/figure-markdown_github/unnamed-chunk-28-1.png)
+![](https://github.com/donalbonny/donalbonny.github.io/blob/master/figures/cancer_files/figure-markdown_github/unnamed-chunk-28-1.png)
