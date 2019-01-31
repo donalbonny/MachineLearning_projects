@@ -9,7 +9,7 @@
 
 [Paper 2](https://github.com/donalbonny/donalbonny.github.io/blob/master/assets/419.full.pdf)
 
-
+* Project 2: Breast cancer prediction 
 
 ## Using Python for your machine learning project 
 * [Your first machine learning project using Python](https://machinelearningmastery.com/make-predictions-scikit-learn/) using scikitlearn 
