@@ -1,0 +1,303 @@
+---
+title: "Diebetes"
+author: "Vinh Pham"
+date: "1/30/2019"
+output:
+   md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(root.dir ="C:/Users/vp6445/Desktop/DataScience_learn/cancer")
+```
+
+```{r include=FALSE}
+library(egg) # required to arrange plots side-by-side
+library(grid) # required to draw arrows
+```
+
+```{r include= FALSE}
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+library(corrplot)
+library(ggthemes)
+```
+
+```{r}
+data <- read.csv("breast_cancer.csv", header = TRUE)
+colnames(data)
+
+# remove the last column with only NA value 
+
+data <- data[,-33] 
+dim(data)
+```
+
+```{r}
+str(data)
+
+```
+
+```{r}
+data$diagnosis = as.factor(data$diagnosis)
+sapply(data, class)
+```
+
+```{r}
+#check missing value 
+
+cat("Number of missing value:", sum(is.na(data)), "\n")
+
+
+```
+
+```{r}
+summary(data)
+```
+
+
+
+
+B: 357 and M: 212
+
+
+```{r}
+library(caret)
+validation_index <- createDataPartition(data$diagnosis, p = 0.8, list = FALSE)
+validation <- data[-validation_index,]
+data <- data[validation_index,]
+dim(data)
+```
+
+```{r}
+percentage <- prop.table(table(data$diagnosis)) * 100
+cbind(freq= table(data$diagnosis), percentage = percentage)
+```
+
+
+```{r}
+
+x = data[,3:32]
+y = data[,2]
+
+```
+
+
+
+```{r}
+par(mfrow=c(2,3))
+  for(i in 1:6) {
+  boxplot(x[,i], main=names(x)[i])
+  }
+
+par(mfrow=c(2,3))
+  for(i in 7:12) {
+  boxplot(x[,i], main=names(x)[i])
+  }
+
+par(mfrow=c(2,3))
+  for(i in 13:18) {
+  boxplot(x[,i], main=names(x)[i])
+  }
+par(mfrow=c(2,3))
+  for(i in 19:24) {
+  boxplot(x[,i], main=names(x)[i])
+}
+par(mfrow=c(2,3))
+  for(i in 25:30) {
+  boxplot(x[,i], main=names(x)[i])
+  }
+
+```
+
+```{r}
+p1 <- ggplot(data, aes(x=concavity_se)) + ggtitle("Concavity SE") +
+  geom_histogram(aes(y = 100*(..count..)/sum(..count..)), binwidth = 0.1, colour="black", fill="white") + ylab("Percentage")
+p2 <- ggplot(data, aes(x= texture_se)) + ggtitle("Texture") +
+  geom_histogram(aes(y = 100*(..count..)/sum(..count..)), binwidth = 1, colour="black", fill="white") + ylab("Percentage")
+p3 <- ggplot(data, aes(x= radius_se)) + ggtitle("Radius") +
+  geom_histogram(aes(y = 100*(..count..)/sum(..count..)), binwidth = 1, colour="black", fill="white") + ylab("Percentage")
+grid.arrange(p1, p2, p3, ncol=3)
+```
+
+Let's check the correlation between different features
+
+```{r}
+features <- data[, 3:ncol(data)]
+correlations <- cor(features,method="pearson")
+corrplot(correlations, number.cex = .9, method = "square", 
+         hclust.method = "ward", order = "FPC",
+         type = "full", tl.cex=0.8,tl.col = "black")
+```
+
+```{r message= F}
+attach(data)
+#Correlation bewteen numeric variables and diagnosis
+# to check if all the variables have significant correlation with diagnosis 
+
+
+par(mfrow=c(1,3))
+
+boxplot(data$concavity_mean~ data$diagnosis, main=" concave.point_mean vs Breast Cancer", xlab="Diagnosis", ylab=" Concave Point Mean")
+
+
+boxplot(data$radius_mean~ data$diagnosis, main=" Radius Mean vs Breast Cancer", xlab="Diagnosis", ylab=" Radius Mean")
+
+
+boxplot(data$texture_mean~ data$diagnosis, main=" Texture Mean vs Breast Cancer", xlab="Diagnosis", ylab=" Texture Mean")
+
+
+```
+
+
+
+#PCA analysis 
+
+
+```{r}
+ggplot(data, aes(x=concavity_mean, y= texture_mean, color=diagnosis)) + geom_point()
+
+```
+
+```{r}
+data %>% select(-diagnosis) %>% # remove diagnosis column
+  scale() %>%                 # scale to 0 mean and unit variance
+  prcomp() ->                 # do PCA
+  pca 
+```
+
+
+```{r}
+pca_data <- data.frame(pca$x, Diagnosis = data$diagnosis)
+head(pca_data)
+```
+
+```{r}
+ggplot(pca_data, aes(x=PC1, y=PC2, color=Diagnosis)) + geom_point()
+```
+
+look at the rotation data 
+```{r}
+pc1 <- ggplot(pca_data, aes(x=PC1, fill=data$diagnosis)) + geom_density(alpha=0.25)  
+pc2 <- ggplot(pca_data, aes(x=PC2, fill=data$diagnosis)) + geom_density(alpha=0.25)  
+grid.arrange(pc1, pc2, ncol=2)
+```
+
+
+```{r}
+rotation_data <- data.frame(pca$rotation, variable=row.names(pca$rotation))
+```
+
+```{r}
+# capture the rotation matrix in a data frame
+rotation_data <- data.frame(pca$rotation, variable=row.names(pca$rotation))
+# define a pleasing arrow style
+arrow_style <- arrow(length = unit(0.05, "inches"),
+                     type = "closed")
+# now plot, using geom_segment() for arrows and geom_text for labels
+ggplot(rotation_data) + 
+  geom_segment(aes(xend=PC1, yend=PC2), x=0, y=0, arrow=arrow_style) + 
+  geom_text(aes(x=PC1, y=PC2, label=variable), hjust=0, size=3, color='red') + 
+  xlim(-0.5, 0.5) + 
+  ylim(-0.5, 0.5) +
+  coord_fixed() # fix aspect ratio to 1:1
+```
+
+# Model selection
+
+Since the outcome varianle is diagnosis including Benign or Malign so We will use classification algorithm of supervised learning for this dataset
+ 
+ Different types of classification algorithms in Machine Learning :
+
+1. Logistic Regression
+
+2. Nearest Neighbor
+
+3. Support Vector Machines
+
+4. Kernel SVM
+
+5. Naïve Bayes
+
+6. Decision Tree Algorithm
+
+7. Random Forest Classification
+
+We will use Classification Accuracy method to find the accuracy of our models. Classification Accuracy is what we usually mean, when we use the term accuracy. It is the ratio of number of correct predictions to the total number of input samples.
+
+
+```{r}
+control <- trainControl(method="cv", number=10, classProbs = TRUE) #10-fold crossvalidation to estimate accuracy
+metric <- "Accuracy"
+```
+
+```{r message= F}
+
+#random forest
+set.seed(2018)
+fit.rf <- train(diagnosis~., data= data, method="rf", metric=metric, trControl=control)
+
+#kNN
+set.seed(2018)
+fit.knn <- train(diagnosis~., data = data, method = "knn", metric = metric, trControl = control)
+
+#SVM 
+set.seed(2018)
+fit.svm <- train(diagnosis~., data = data, method = "svmRadial", metric = metric, trControl = control)
+
+# Decision Tree
+set.seed(2018)
+fit.rpart <- train(diagnosis~., data = data, method = "rpart", metric = metric, trControl = control)
+
+```
+
+
+
+```{r}
+result <-  resamples(list(rpart = fit.rpart, svm = fit.svm, knn = fit.knn, rf = fit.rf))
+summary(result)
+```
+
+```{r}
+prediction <- predict(fit.rf, validation)
+confusionMatrix(prediction, validation$diagnosis)
+```
+
+
+
+```{r}
+dotplot(result)
+bwplot(result, metric = "Accuracy")
+
+```
+The results show that Random forest gives the best result for our dataset
+
+
+
+#Logistic regression using glm function
+
+```{r}
+glm <-  glm(diagnosis ~.,
+               data = data,
+               family = binomial)
+
+
+lr_data <- data.frame(predictor=glm$linear.predictors, prob=glm$fitted.values, Diagnosis = data$diagnosis)
+
+
+```
+ 
+ To check how the two diagnosis  outcomes are separated by the linear predictor.
+
+```{r}
+ggplot(lr_data, aes(x=predictor, fill=Diagnosis)) + 
+  geom_density(alpha=.5) +
+  scale_fill_colorblind()
+```
+
+
+
+
