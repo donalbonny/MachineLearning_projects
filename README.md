@@ -13,3 +13,9 @@
 
 ## Using Python for your machine learning project 
 * [Your first machine learning project using Python](https://machinelearningmastery.com/make-predictions-scikit-learn/) using scikitlearn 
+
+
+
+Tutorials for machine learning
+* EdX/Harvard Data Science: Machine Learning 
+* [How to start machine learning learning](https://machinelearningmastery.com/start-here/#getstarted)
