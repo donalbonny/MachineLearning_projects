@@ -11,6 +11,8 @@
 
 * Project 2: Breast cancer prediction 
 
+ [This is very good references for cancer or disease prediction using caret packages in R.](https://shiring.github.io/machine_learning/2017/03/31/webinar_code)
+
 ## Using Python for your machine learning project 
 * [Your first machine learning project using Python](https://machinelearningmastery.com/make-predictions-scikit-learn/) using scikitlearn 
 
